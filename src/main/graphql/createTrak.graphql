@@ -1,0 +1,10 @@
+mutation createTrak($trak:GeoTrakInput!) {
+  createTrak(trak: $trak) {
+    trakId
+    geoId
+    latitude
+    longitude
+    altitude
+    timestamp
+  }
+}
