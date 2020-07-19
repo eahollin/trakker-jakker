@@ -17,6 +17,18 @@ import com.apollographql.apollo.exception.ApolloException;
 import com.edhollingsworth.geotrak.trakker.jakker.graphql.CreateTrakMutation;
 import com.edhollingsworth.geotrak.trakker.jakker.graphql.type.GeoTrakInput;
 
+/**
+ * This is currently a very simplistic class that either invokes the Trakker
+ * service a specified number of times using a specified entity ID, or randomly
+ * chooses those values if no parameters are passed.  Eventually, this class is
+ * intended to support multiple "scenarios" that will invoke the Trakker service
+ * in various ways, in order to simulate different types of trackable activity.
+ * Examples include: execution on a timer, generating new entities and executing
+ * additional calls on separate threads, etc.  These scenarios might have
+ * identifiers such as "Infection", "Traveller", etc.
+ *
+ * @author Ed Hollingsworth
+ */
 @Component
 public class TrakkerJakker implements InitializingBean {
 	private final Log log = LogFactory.getLog(TrakkerJakker.class.getName());
@@ -31,12 +43,35 @@ public class TrakkerJakker implements InitializingBean {
 	private int callCount, errCount = 0;
 
 	/**
-	 * The process.
+	 * If we don't receive any parameters, we need to make up some values
 	 */
 	public void process() {
 		// The entity we are going to Jakk
 		String geoId = UUID.randomUUID().toString();
 		int max = randomizer.nextInt(50); // Pick a random number between 1 and 50
+
+		process(geoId, max);
+	}
+	/**
+	 * Other variations handle a single parameter
+	 */
+	public void process(String geoId) {
+		// Pick a random number between 1 and 500
+		int max = randomizer.nextInt(500);
+
+		process(geoId, max);
+	}
+	public void process(Integer max) {
+		// The entity we are going to Jakk
+		String geoId = UUID.randomUUID().toString();
+
+		process(geoId, max);
+	}
+
+	/**
+	 * The process.
+	 */
+	public void process(String geoId, Integer max) {
 		log.info(geoId + " is going to execute " + max + " times!");
 		
 		// Start at the configured Origin
