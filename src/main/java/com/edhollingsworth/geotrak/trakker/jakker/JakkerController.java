@@ -5,10 +5,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Simple REST controller allows monitoring of TrakkerJakker utility.
+ * Simple REST controller allows monitoring and initiation of TrakkerJakker utility.
  *
  * @author Ed Hollingsworth
  */
@@ -24,10 +25,11 @@ public class JakkerController {
 	 */
 	@CrossOrigin(origins = "*")
     @GetMapping(path = "/jakk")
-    public void jakkIt() {
-		log.info("Jakking things up...");
+    public void jakkIt(@RequestParam(required=false) String geoId, @RequestParam(required=false) Integer iterations) {
+		log.debug("Received geoId="+geoId+", iterations="+iterations);
 		
-		tj.process();
+		log.info("Jakking things up...");
+		tj.process(geoId, iterations);
     }
 	
 	/**

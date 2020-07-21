@@ -58,6 +58,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>trakker-jakker</finalName>
 		<plugins>
 			<plugin>
 			    <groupId>com.github.sparow199</groupId>
